@@ -6,12 +6,12 @@
 # * GO_VERSION
 #
 # Include in your builds via
-# \curl -sSL https://raw.githubusercontent.com/codeship/scripts/master/languages/go.sh > ${HOME}/go.sh && source ${HOME}/go.sh
+# source /dev/stdin <<< "$(curl -sSL https://raw.githubusercontent.com/codeship/scripts/master/languages/go.sh)"
 GO_VERSION=${GO_VERSION:="1.4.2"}
 
 # strip all components from PATH which point toa GO installation and configure the
 # download location
-CLEANED_PATH=$(echo $PATH | sed -r 's|/(usr/local\|tmp)/go(/([0-9]\.)+[0-9])?/bin:||g')
+CLEANED_PATH=$(echo "${PATH}" | sed -r 's|/(usr/local\|tmp)/go(/([0-9]\.)+[0-9])?/bin:||g')
 CACHED_DOWNLOAD="${HOME}/cache/go${GO_VERSION}.linux-amd64.tar.gz"
 
 # configure the new GOROOT and PATH
@@ -25,5 +25,5 @@ mkdir -p "${GOROOT}"
 wget --continue --output-document "${CACHED_DOWNLOAD}" "https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz"
 tar -xaf "${CACHED_DOWNLOAD}" --strip-components=1 --directory "${GOROOT}"
 
-# check the correct version is yused
-go version | grep ${GO_VERSION}
+# check the correct version is used
+go version | grep "${GO_VERSION}"

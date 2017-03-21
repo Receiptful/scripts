@@ -7,8 +7,12 @@
 # * DATADOG_API_KEY
 #
 # You have the option to define the environment variables below, else defaults will be applied.
+# Default configuration of this script is for Codeship's Classic infrastructure.
 # For more details on Default Environment Variables (those starting with "CI_"), please visit:
-# https://codeship.com/documentation/continuous-integration/set-environment-variables/
+# Classic Infrastructure
+# https://documentation.codeship.com/classic/getting-started/set-environment-variables/#default-environment-variables
+# Docker Infrastructure
+# https://documentation.codeship.com/docker/getting-started/steps/#build-environment
 # 
 # * DATADOG_TITLE  ( Default: "Deployment" )
 # * DATADOG_DESCRIPTION  ( Default: CI_MESSAGE )
@@ -20,7 +24,7 @@ DATADOG_API_KEY=${DATADOG_API_KEY:?'You need to configure the DATADOG_API_KEY en
 DATADOG_TITLE=${DATADOG_TITLE:-"Deployment"}
 DATADOG_DESCRIPTION=${DATADOG_DESCRIPTION:-$CI_MESSAGE}
 DATADOG_PRIORITY=${DATADOG_PRIORITY:-'low'}
-DATADOG_TAGS=${DATADOG_TAGS:-"[\"CI_NAME\",\"commit:CI_COMMIT_ID\",\"committer:CI_COMMITTER_USERNAME\"]"}
+DATADOG_TAGS=${DATADOG_TAGS:-"[\"$CI_NAME\",\"commit:$CI_COMMIT_ID\",\"committer:$CI_COMMITTER_USERNAME\"]"}
 
 #sanitize semicolons, remove newlines, and replace multiple spaces with a single space
 DATADOG_TITLE=$(echo ${DATADOG_TITLE//;/%3B}|sed ':a;N;$!ba;s/\n/ /g'|tr -s ' ')
