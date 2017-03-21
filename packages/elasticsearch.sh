@@ -38,7 +38,10 @@ wget --continue --output-document "${CACHED_DOWNLOAD}" "${ELASTICSEARCH_DL_URL}"
 tar -xaf "${CACHED_DOWNLOAD}" --strip-components=1 --directory "${ELASTICSEARCH_DIR}"
 
 echo "http.port: ${ELASTICSEARCH_PORT}" >> ${ELASTICSEARCH_DIR}/config/elasticsearch.yml
-echo "script.disable_dynamic: false" >> ${ELASTICSEARCH_DIR}/config/elasticsearch.yml
+if [ ${ELASTICSEARCH_VERSION:0:1} -eq 1 ]
+then
+    echo "script.disable_dynamic: false" >> ${ELASTICSEARCH_DIR}/config/elasticsearch.yml
+fi
 
 # Make sure to use the exact parameters you want for ElasticSearch and give it enough sleep time to properly start up
 nohup bash -c "${ELASTICSEARCH_DIR}/bin/elasticsearch 2>&1" &
